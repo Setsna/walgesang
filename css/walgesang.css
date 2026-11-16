@@ -164,7 +164,7 @@ a.knopf { display: inline-flex; align-items: center; text-decoration: none; }
   gap: var(--luecke);
   max-width: 62rem;
 }
-/* Sechs Stationen: drei je Reihe; erst auf sehr breiten Bildschirmen (Tafel) alle sechs nebeneinander */
+/* Sechs Stationen: drei je Reihe im Hochformat; im Querformat ab 1100 px alle sechs nebeneinander (Regel weiter unten) */
 @media (orientation: landscape) and (min-width: 1500px) {
   .stationen { --spalten: 6; max-width: 92rem; }
 }

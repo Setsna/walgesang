@@ -40,7 +40,7 @@
 }
 .aufgabe { margin: 0; max-width: none; }
 .auftrag { margin: 0 0 0.2rem; color: var(--navy); font-size: var(--gr-text); }   /* Arbeitsauftrag in Lesegröße (6c) */
-.bela-aussage { display: flex; align-items: center; gap: var(--a-s); }   /* Würfis Satz mit seinem Bild statt grauer Überzeile (6c) */
+.bela-aussage { display: flex; align-items: center; gap: var(--a-s); }   /* Belas Satz mit ihrem Bild statt grauer Überzeile (6c) */
 .bela-aussage .bela-klein { flex: none; width: 3.25rem; height: 3.25rem; }
 .bela-aussage > div { min-width: 0; }
 .aussage { font-size: var(--gr-text); font-weight: 700; margin: var(--a-xs) 0 var(--a-m); }
@@ -130,7 +130,7 @@
 }
 .logbuch__offen { font-size: 0.95rem; }
 .logbuch__stufe { width: 5rem; }
-/* B13: Rundenende als Höhepunkt: Glasfeld, großer Stempel auf Papier, Würfi daneben, ein Hauptknopf, die anderen kleiner */
+/* B13: Rundenende als Höhepunkt: Glasfeld, großer Stempel auf Papier, Bela daneben, ein Hauptknopf, die anderen kleiner */
 .rundenende {
   max-width: 34rem; margin: var(--a-l) auto; padding: var(--a-l) var(--a-l) var(--a-m); text-align: center; color: var(--weiss);
   border-radius: calc(56 * var(--s) + 1rem); background: rgba(10, 52, 84, 0.78); border: 2px solid var(--glas-kante);
