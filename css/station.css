@@ -40,7 +40,7 @@
 }
 .aufgabe { margin: 0; max-width: none; }
 .auftrag { margin: 0 0 0.2rem; color: var(--navy); font-size: var(--gr-text); }   /* Arbeitsauftrag in Lesegröße (6c) */
-.bela-aussage { display: flex; align-items: center; gap: var(--a-s); }   /* Belas Satz mit ihrem Bild statt grauer Überzeile (6c) */
+.bela-aussage { display: flex; align-items: center; gap: var(--a-s); }   /* Belas Satz mit Bild statt grauer Überzeile (6c) */
 .bela-aussage .bela-klein { flex: none; width: 3.25rem; height: 3.25rem; }
 .bela-aussage > div { min-width: 0; }
 .aussage { font-size: var(--gr-text); font-weight: 700; margin: var(--a-xs) 0 var(--a-m); }
