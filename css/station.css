@@ -322,7 +322,8 @@
 /* 21: lange Wörter (Adresse, Tipps) brechen bei großer Schrift um */
 .papier, .dialog, .tipp p, .blase__text { overflow-wrap: break-word; }
 /* 24: Fokus auf dem Titel nach dem Weiterblättern: ein ruhiger einfacher Ring */
-h1[tabindex="-1"]:focus-visible { box-shadow: none; outline: 2px solid var(--navy); outline-offset: 6px; }
+h1[tabindex="-1"] { width: fit-content; max-width: 100%; margin-inline: auto; padding: 0 0.3em; border-radius: 0.5rem; }
+h1[tabindex="-1"]:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; box-shadow: none; }
 /* E3: „So heißt das“ ohne farbigen Balken links, als heller Kasten mit dünnem Rand */
 .fachwort { border: 1px solid var(--papier-linie); border-left-width: 1px; background: var(--weiss); }
 .fachwort--loesung { border-style: dashed; border-color: rgba(11, 49, 85, 0.45); }
@@ -335,3 +336,19 @@ h1[tabindex="-1"]:focus-visible { box-shadow: none; outline: 2px solid var(--nav
 .luecke--loesung:not(.luecke--voll) { min-width: 0; width: 0.3em; margin: 0; padding: 0; }
 .satz-flaeche--fertig .luecke:not(.luecke--voll) { min-width: 0; width: 0.3em; margin: 0; padding: 0; }
 .satz-flaeche--fertig .luecke:not(.luecke--voll)::before { border-color: transparent; }
+
+/* ---------- Etappe 6c: Finish-Review ---------- */
+/* 1: Im fertigen Satz steht nach Doppelpunkt und Komma ein Leerzeichen (wie im gesetzten Text) */
+.satz-flaeche--fertig .luecke__zeichen[data-z=":"], .satz-flaeche--fertig .luecke__zeichen[data-z=","],
+.luecke--loesung .luecke__zeichen[data-z=":"], .luecke--loesung .luecke__zeichen[data-z=","] { margin-right: 0.3em; }
+/* 2: Die gefüllte Lücke fasst ihre Zeichen (auch zwei oder drei) ganz im Kasten */
+.luecke--voll { padding: 0 0.3em; margin: 0 0.02em; }
+.luecke--voll::before, .luecke--fehler::before { inset: 0.15rem 0.06em; }
+.luecke__zeichen + .luecke__zeichen { margin-left: 0.04em; }
+/* 3: Fokus nur am sichtbaren Kasten, nicht um die ganze Tippfläche über dem Nachbarwort.
+   Der transparente Umriss bleibt für den Kontrastmodus (kein outline: none). */
+.luecke:focus-visible { outline: 3px solid transparent; box-shadow: none; }
+.luecke:focus-visible::before { box-shadow: 0 0 0 2px var(--weiss), 0 0 0 5px var(--navy); }
+/* 6c-Nachtrag: Im fertigen Satz (richtig oder Lösung) stehen die Zeichen wie gesetzter Text: kein Kasten, kein Innenrand */
+.satz-flaeche--fertig .luecke--voll { padding: 0; margin: 0; min-width: 0; }
+.satz-flaeche--fertig .luecke--voll::before { border-color: transparent; background: transparent; box-shadow: none; }

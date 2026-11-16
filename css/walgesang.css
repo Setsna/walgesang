@@ -298,8 +298,6 @@ h1, h2, h3 { text-wrap: balance; }
   .station__name { min-height: 2.6em; display: flex; align-items: flex-end; justify-content: center; }
 }
 /* Fokus auf dem Titel nach dem Weiterblättern: Ring bleibt, aber rund und mit Abstand (kein „Auswahlkasten“) */
-h1[tabindex="-1"] { border-radius: 0.6rem; }
-h1[tabindex="-1"]:focus-visible { outline-offset: 6px; }
 
 /* Erwachsenenbereich wie bei den Riff-Akten (Ingo, 15.11.2026): zugeklappt eine kleine Nebelglas-Pille
    mit Pfeil links, damit Kinder nicht hineintippen; aufgeklappt helles Papier in voller Breite. */
@@ -358,12 +356,6 @@ h1[tabindex="-1"]:focus-visible { outline-offset: 6px; }
   .station { min-height: 0; padding: calc(26 * var(--s)) var(--a-m) calc(20 * var(--s)); border-radius: calc(56 * var(--s)); }
   .station__bild { padding-top: calc(10 * var(--s)); margin-bottom: calc(6 * var(--s)); }
   .zusatz { margin-top: calc(18 * var(--s)); }
-  .stationen--zusatz > li { flex-basis: min(36rem, 100%); }
-  .stationen--zusatz .station { flex-direction: row; flex-wrap: wrap; justify-content: center; column-gap: var(--a-m); padding: calc(14 * var(--s)) var(--a-l); border-radius: 999px; text-align: left; }
-  .stationen--zusatz .station__name { min-height: 0; font-size: var(--gr-text); }
-  .stationen--zusatz .station__linie { display: none; }
-  .stationen--zusatz .station__bild { order: -1; margin: 0; padding: 0; width: 6rem; min-width: 0; }
-  .stationen--zusatz .stempel-punkte { margin-top: 0; }
 }
 /* 7: Tafel: Kurztext im Sechser-Raster eine Stufe kleiner, damit der Titel führt */
 @media (orientation: landscape) and (min-width: 1500px) {
@@ -373,4 +365,37 @@ h1[tabindex="-1"]:focus-visible { outline-offset: 6px; }
 @media (orientation: landscape) and (min-width: 1100px) {
   .stationen { --spalten: 6; max-width: 92rem; }
   .stationen:not(.stationen--zusatz) .station__kurz { font-size: 0.95rem; }
+}
+
+/* Finish-Review 5: Zusatz für Klasse 4 in jedem Querformat als flache Zeile (iPad quer und Tafel gleich) */
+@media (orientation: landscape) and (min-width: 820px) {
+  .stationen--zusatz > li { flex-basis: min(36rem, 100%); }
+  .stationen--zusatz .station { flex-direction: row; flex-wrap: wrap; justify-content: center; column-gap: var(--a-m); padding: calc(14 * var(--s)) var(--a-l); border-radius: 999px; text-align: left; }
+  .stationen--zusatz .station__name { min-height: 0; font-size: var(--gr-text); }
+  .stationen--zusatz .station__linie { display: none; }
+  .stationen--zusatz .station__bild { order: -1; margin: 0; padding: 0; width: 6rem; min-width: 0; }
+  .stationen--zusatz .stempel-punkte { margin-top: 0; }
+}
+/* Finish-Review 4: sechs Karten in einer Reihe: schmaler Innenrand, größerer Titel, keine Leerzone über dem Bild */
+@media (orientation: landscape) and (min-width: 1100px) {
+  .stationen:not(.stationen--zusatz) .station { padding-inline: var(--a-s); border-radius: calc(44 * var(--s)); }
+  .stationen:not(.stationen--zusatz) .station__name { font-size: clamp(1.2rem, 15cqi, 2.2rem); }
+  .stationen:not(.stationen--zusatz) .station__bild { margin-top: var(--a-m); }
+}
+/* Finish-Review 6: auch im Hochformat (ab 561 px) fluchten Titel, Trennlinie und Kurztext */
+@media (min-width: 561px) {
+  .stationen:not(.stationen--zusatz) .station__name { min-height: 2.6em; display: flex; align-items: flex-end; justify-content: center; }
+}
+/* 6c-Nachtrag: Bild und Stempelpunkte aller Karten auf einer Höhe am unteren Rand, mit Mindestabstand zum Text */
+@media (orientation: landscape) and (min-width: 1100px) {
+  .stationen:not(.stationen--zusatz) .station__bild { margin-top: auto; padding-top: var(--a-m); }
+}
+/* 6c-Nachtrag: Querformat und Tafel: Karten so hoch wie ihr Inhalt; Zusatz als flache Zeile ohne Mindesthöhe */
+@media (orientation: landscape) and (min-width: 820px) {
+  .stationen--zusatz .station { min-height: 0; }
+}
+@media (orientation: landscape) and (min-width: 1500px) {
+  .station { min-height: 0; padding-block: calc(30 * var(--s)) calc(24 * var(--s)); }
+  .stationen { margin-top: calc(24 * var(--s)); }
+  .zusatz { margin-top: calc(20 * var(--s)); }
 }

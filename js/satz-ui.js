@@ -36,7 +36,7 @@
       const z = s.eingabe[i];
       const fehler = s.fehler.has(i);
       const label = `${name(i)}: ${Z().benenne(z)}${fehler ? '. Hier stimmt etwas nicht.' : ''}`;
-      return `<button type="button" class="luecke${z.length ? ' luecke--voll' : ''}${fehler ? ' luecke--fehler' : ''}${s.loesung ? ' luecke--loesung' : ''}" data-${praefix}="luecke" data-i="${i}" aria-pressed="${s.auswahl === i}" aria-label="${ctx.esc(label)}"${s.gesperrt ? ' disabled' : ''}>${z.map(c => `<span class="luecke__zeichen">${ctx.esc(c)}</span>`).join('')}</button>`;
+      return `<button type="button" class="luecke${z.length ? ' luecke--voll' : ''}${fehler ? ' luecke--fehler' : ''}${s.loesung ? ' luecke--loesung' : ''}" data-${praefix}="luecke" data-i="${i}" aria-pressed="${s.auswahl === i}" aria-label="${ctx.esc(label)}"${s.gesperrt ? ' disabled' : ''}>${z.map(c => `<span class="luecke__zeichen" data-z="${ctx.esc(c)}">${ctx.esc(c)}</span>`).join('')}</button>`;
     };
     /* Je Lücke und folgendes Wort eine Gruppe, die nicht umbricht; die letzte Lücke bleibt beim letzten Wort */
     s.satzHtml = ctx => {

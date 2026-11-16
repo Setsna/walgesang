@@ -143,26 +143,29 @@
     }
   }
   function waehlen(id) {
+    z.ansage = '';
     const o = z.optionen.find(x => x.id === id);
     z.versuche++;
-    if (id === 'richtig') { zeileFertig(o.text, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : 'Genau. Weiter mit der nächsten Zeile.'; }
-    else if (z.versuche >= 2) { const r = z.optionen.find(x => x.id === 'richtig'); zeileFertig(r.text, false); z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.'; }
+    if (id === 'richtig') { zeileFertig(o.text, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : (z.ansage = 'Genau. Weiter mit der nächsten Zeile.', ''); }
+    else if (z.versuche >= 2) { const r = z.optionen.find(x => x.id === 'richtig'); zeileFertig(r.text, false); z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : (z.ansage = 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.', ''); }
     else z.falsch = id, z.rueck = id === 'sprecher' ? 'Schau oben ins Bild: Wer sagt das?' : 'Der Sprecher stimmt. Schau genau auf die Zeichen.';
-    panel(); ctx.ansagen(z.rueck);
+    panel(); ctx.ansagen(z.rueck || z.ansage || '');
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}="zeile"]`);
   }
   function pruefen() {
+    z.ansage = '';
     const p = z.ui.pruefen();
     z.versuche++;
-    if (p.richtig) { const t = Z().text(z.a); zeileFertig(t, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : 'Genau. Weiter mit der nächsten Zeile.'; panel(); T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}s="luecke"]`); }
+    if (p.richtig) { const t = Z().text(z.a); zeileFertig(t, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : (z.ansage = 'Genau. Weiter mit der nächsten Zeile.', ''); panel(); T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}s="luecke"]`); }
     else { z.rueck = `${p.stellen.length === 1 ? 'An einer Stelle' : `An ${p.stellen.length} Stellen`} stimmt es noch nicht. ${Z().hinweis(z.a, p.stellen[0])}`; z.ui.zeichnen(ctx); const r = ctx.app.querySelector(`#${P}-rueck`); if (r) r.textContent = z.rueck; if (z.versuche === 2) panel(); z.ui.waehle(p.stellen[0].luecke); z.ui.zeichnen(ctx, true); }
-    ctx.ansagen(z.rueck);
+    ctx.ansagen(z.rueck || z.ansage || '');
   }
   function loesung() {
+    z.ansage = '';
     const t = Z().text(z.a);
     zeileFertig(t, false);
-    z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.';
-    panel(); ctx.ansagen(z.rueck);
+    z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : (z.ansage = 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.', '');
+    panel(); ctx.ansagen(z.rueck || z.ansage || '');
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}s="luecke"]`);
   }
   function weiter() {
