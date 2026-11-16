@@ -67,6 +67,7 @@
       if (ansicht === 'code' && app.querySelector('#code')) {
         app.querySelector('#code-form button[type="submit"]').disabled = false;
         app.querySelector('#code-hinweis').textContent = r.grund || '';
+        app.querySelector('#code').setAttribute('aria-invalid', r.grund ? 'true' : 'false');
         app.querySelector('#code').focus();
       } else ansichtCode(r.grund);
       return;
@@ -92,6 +93,8 @@
       ${erwachsene()}`, '');
     ansicht = 'code';
     app.querySelector('#code-hinweis').textContent = hinweis || '';
+    if (hinweis && hinweis !== MOMENT) app.querySelector('#code').setAttribute('aria-invalid', 'true');
+    app.querySelector('#code').addEventListener('input', e => e.target.removeAttribute('aria-invalid'));
     app.querySelector('#code-form').addEventListener('submit', e => {
       e.preventDefault();
       const knopf = e.target.querySelector('button[type="submit"]');
@@ -238,7 +241,7 @@
         <h3>${esc(x.titel)}</h3>
         ${(x.absaetze || []).map(t => `<p>${esc(t)}</p>`).join('')}
         ${x.liste ? `<ul class="erwachsene__liste">${x.liste.map(([f, t]) => `<li><b>${esc(f)}:</b> ${esc(t)}</li>`).join('')}</ul>` : ''}
-        ${x.tabelle ? `<div class="erwachsene__tabelle"><table><thead><tr>${x.tabelle.kopf.map(k => `<th scope="col">${esc(k)}</th>`).join('')}</tr></thead><tbody>${x.tabelle.zeilen.map(([p, u]) => `<tr><th scope="row">${esc(p)}</th><td>${esc(u)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+        ${x.tabelle ? `<div class="erwachsene__tabelle" tabindex="0" role="region" aria-label="${esc(x.titel)}"><table><thead><tr>${x.tabelle.kopf.map(k => `<th scope="col">${esc(k)}</th>`).join('')}</tr></thead><tbody>${x.tabelle.zeilen.map(([p, u]) => `<tr><th scope="row">${esc(p)}</th><td>${esc(u)}</td></tr>`).join('')}</tbody></table></div>` : ''}
         ${x.datenschutzLink ? '<p>Mehr steht unter <a href="datenschutz.html">Datenschutz</a>.</p>' : ''}`;
     return `
       <details class="papier erwachsene ${klasse}">

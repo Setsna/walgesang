@@ -103,7 +103,7 @@
   }
   function zeileVorbereiten() {
     const x = z.g.zeilen[z.zeile];
-    z.versuche = 0;
+    z.versuche = 0; z.falsch = null;
     if (z.stufe === 'knifflig') { z.a = Z().aufbau(x, x.stellung); z.ui = WG.satzUi.neu(z.a, { praefix: P + 's' }); }
     else z.optionen = fassungen(x, z.g);
   }
@@ -117,13 +117,14 @@
       const wie = x.stellung === 'vorne' ? 'Der Begleitsatz steht vorne.' : 'Der Begleitsatz steht hinten.';
       if (z.stufe === 'knifflig') {
         h += `<p class="auftrag" id="${P}-auftrag">Zeile ${z.zeile + 1}: ${esc(gross(x.sprecher))} spricht. ${wie} Setze die Zeichen.</p>${z.ui.html(ctx)}
+          <p class="rueckmeldung" role="status" id="${P}-rueck">${esc(z.rueck)}</p>
           <p class="knopfreihe"><button type="button" class="knopf haupt" data-${P}="pruefen">Prüfen</button>${z.versuche >= 2 ? `<button type="button" class="knopf" data-${P}="loesung">Lösung zeigen</button>` : ''}</p>`;
       } else {
         h += `<p class="auftrag" id="${P}-auftrag">Zeile ${z.zeile + 1}: Welche Zeile ist richtig?</p>
-          <div class="antworten" role="group" aria-labelledby="${P}-auftrag">${z.optionen.map(o => `<button type="button" class="knopf antwort-knopf antwort-knopf--satz" data-${P}="zeile" data-id="${o.id}">${esc(o.text)}</button>`).join('')}</div>`;
+          <div class="antworten" role="group" aria-labelledby="${P}-auftrag">${z.optionen.map(o => `<button type="button" class="knopf antwort-knopf antwort-knopf--satz${o.id === z.falsch ? ' ist-falsch' : ''}" data-${P}="zeile" data-id="${o.id}">${esc(o.text)}</button>`).join('')}</div>`;
       }
     }
-    h += `<p class="rueckmeldung" role="status" id="${P}-rueck">${esc(z.rueck)}</p>`;
+    if (z.fertig || z.stufe !== 'knifflig') h += `<p class="rueckmeldung" role="status" id="${P}-rueck">${esc(z.rueck)}</p>`;
     if (z.fertig) h += `<div class="fachwort"><h2 class="frage-klein">So schreibt man ein Gespräch</h2><p>Jede Person bekommt eine neue Zeile. Der Begleitsatz sagt, wer spricht. Er kann vorne oder hinten stehen.</p></div><p class="knopfreihe">${weiter}</p>`;
     ort.innerHTML = h;
     const b = ctx.app.querySelector(`#${P}-bild`);
@@ -146,7 +147,7 @@
     z.versuche++;
     if (id === 'richtig') { zeileFertig(o.text, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : 'Genau. Weiter mit der nächsten Zeile.'; }
     else if (z.versuche >= 2) { const r = z.optionen.find(x => x.id === 'richtig'); zeileFertig(r.text, false); z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.'; }
-    else z.rueck = id === 'sprecher' ? 'Schau oben ins Bild: Wer sagt das?' : 'Der Sprecher stimmt. Schau genau auf die Zeichen.';
+    else z.falsch = id, z.rueck = id === 'sprecher' ? 'Schau oben ins Bild: Wer sagt das?' : 'Der Sprecher stimmt. Schau genau auf die Zeichen.';
     panel(); ctx.ansagen(z.rueck);
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}="zeile"]`);
   }

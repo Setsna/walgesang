@@ -260,3 +260,78 @@
 /* Beschriftung in der Zeichenleiste bleibt im Knopf: lange Wörter brechen am weichen Trennzeichen (Doppel-punkt) */
 .zeichen-knopf { min-width: 0; overflow: hidden; }
 .zeichen-knopf__name { max-width: 100%; hyphens: manual; overflow-wrap: normal; text-align: center; }
+
+/* ---------- Etappe 6b: Befunde aus dem Design-Review (Ausgaben/Etappe 6a Befunde.md) ---------- */
+/* 1, 4: Lücke. Die Tippfläche bleibt 48 × 48 px, der sichtbare Kasten ist kleiner und ruhiger (::before),
+   der Rand hat 3,9 : 1 Kontrast. Seitlich ragt die Tippfläche etwas über die Nachbarwörter, damit der Satz nicht zerfällt. */
+.luecke { border: 0; background: transparent; margin: 0 -0.55rem; z-index: 1; }
+.luecke::before {
+  content: ''; position: absolute; inset: 0.45rem 0.65rem; pointer-events: none;
+  border: 2px dashed rgba(11, 49, 85, 0.6); border-radius: 0.45rem; background: transparent;
+}
+.luecke--voll { margin: 0 -0.15rem; }
+.luecke--voll::before { inset: 0.3rem 0.2rem; border-style: solid; background: rgba(45, 111, 152, 0.08); }
+.luecke[aria-pressed="true"] { border: 0; background: transparent; }
+.luecke[aria-pressed="true"]::before { border: 3px solid var(--navy); background: rgba(45, 111, 152, 0.14); }
+.luecke__zeichen { position: relative; }
+.satz { row-gap: 0.9rem; column-gap: 0; padding: var(--a-m) var(--a-m); }
+/* 2: Fehlerstelle: durchgezogener dicker Rahmen in Terrakotta und ein deutlich größerer Pfeil darunter */
+.luecke--fehler, .luecke--fehler[aria-pressed="true"] { border: 0; outline: 0; background: transparent; }
+.luecke--fehler::before, .luecke--fehler[aria-pressed="true"]::before { border: 4px solid var(--fehler); background: rgba(165, 67, 44, 0.08); }
+.luecke--fehler[aria-pressed="true"]::before { box-shadow: 0 0 0 2px var(--weiss), 0 0 0 4px var(--navy); }
+.luecke--fehler::after, .kachel--fehler::after {
+  bottom: -0.95rem; margin-left: -0.7rem;
+  border-left: 0.7rem solid transparent; border-right: 0.7rem solid transparent; border-bottom: 0.85rem solid var(--fehler);
+}
+.kachel--fehler { border: 4px solid var(--fehler); }
+/* 3: Lösung gezeigt: leere Lücken ohne Kasten, gefüllte mit ruhigem durchgezogenem Rahmen */
+.luecke--loesung:not(.luecke--voll)::before { border-color: transparent; background: transparent; }
+.luecke--loesung.luecke--voll::before { border: 2px solid var(--navy); background: var(--weiss); }
+/* 11: nach Lösung oder richtig: gesperrte Zeichenleiste ausblenden, der Weiter-Knopf rückt hoch */
+.satz-flaeche--fertig .zeichenleiste { display: none; }
+/* 8: Zeichenleiste: Zeichen so groß wie im Satz, Beschriftung mindestens 15 px; bei wenig Platz bricht sie in Reihen um (B10) */
+.zeichenleiste { grid-template-columns: repeat(auto-fit, minmax(4.4rem, 1fr)); }
+.zeichen-knopf { min-height: 4.4rem; }
+.zeichen-knopf__glyph { font-size: 2.5rem; }
+.zeichen-knopf__name { font-size: max(15px, 0.95rem); }
+/* 13: Kacheln: Rand mit 3,9 : 1, antippbare Zeichen-Kacheln 48 px breit */
+.kachel { border-color: rgba(11, 49, 85, 0.6); }
+.kachel--zeichen:not(.kachel--fest) { min-width: var(--tippen); }
+/* 9: Antwortknöpfe sehen wie Knöpfe aus, nicht wie ein Eingabefeld */
+.antwort-knopf { text-align: center; box-shadow: 0 6px 14px -8px rgba(3, 20, 35, 0.45); }
+.antwort-knopf--satz { text-align: left; }
+/* E1: falsch getippte Antwort: ruhiger gestrichelter Rahmen (nicht nur Farbe) */
+.antwort-knopf.ist-falsch { border: 3px dashed var(--fehler); }
+/* 10: Heftlinien unter der Grundlinie, nicht durch die Schrift */
+.heft { background-origin: content-box; background-position: 0 0.45rem; background-clip: padding-box; }
+/* 5: Rundenende: der Hauptknopf ist hell (die Regel .knopf.haupt hatte gewonnen) */
+.rundenende .knopf.rundenende__haupt { background: var(--weiss); color: var(--navy); border-color: var(--weiss); }
+/* 14: Wörter-Dialog: Begriffe dürfen umbrechen, die Tabelle bleibt im Dialog */
+.wortspeicher__tabelle th { white-space: normal; }
+.wortspeicher__tabelle { table-layout: auto; }
+/* 15: Liederbuch bei großer Schrift: Stempel umbrechen, „Zur Station“ bleibt erreichbar */
+.logbuch__zeile { grid-template-columns: minmax(0, 1fr) auto auto; }
+.logbuch__zeile > * { min-width: 0; }
+.logbuch__stempel { flex-wrap: wrap; }
+@media (max-width: 900px) { .logbuch__zeile { grid-template-columns: 1fr; justify-items: start; } }
+/* 18: Name in erledigter Sprechblase mit genug Kontrast */
+.blase--erledigt { opacity: 0.8; }
+.blase--erledigt .blase__wer { opacity: 1; }
+/* 19: Fläche schrumpft bei großer Schrift mit, statt die Seite zu verbreitern */
+.station-flaeche { grid-template-columns: minmax(0, 1fr); }
+/* 21: lange Wörter (Adresse, Tipps) brechen bei großer Schrift um */
+.papier, .dialog, .tipp p, .blase__text { overflow-wrap: break-word; }
+/* 24: Fokus auf dem Titel nach dem Weiterblättern: ein ruhiger einfacher Ring */
+h1[tabindex="-1"]:focus-visible { box-shadow: none; outline: 2px solid var(--navy); outline-offset: 6px; }
+/* E3: „So heißt das“ ohne farbigen Balken links, als heller Kasten mit dünnem Rand */
+.fachwort { border: 1px solid var(--papier-linie); border-left-width: 1px; background: var(--weiss); }
+.fachwort--loesung { border-style: dashed; border-color: rgba(11, 49, 85, 0.45); }
+/* 6b-Nachtrag: Querformat behält die zwei Spalten (die Regel für große Schrift oben gilt nur einspaltig) */
+@media (orientation: landscape) and (min-width: 820px) {
+  .station-flaeche { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .station-flaeche--satz { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); }
+}
+/* 6b-Nachtrag: in der Lösung brauchen leere Lücken keine Tippfläche mehr: normale Wortabstände */
+.luecke--loesung:not(.luecke--voll) { min-width: 0; width: 0.3em; margin: 0; padding: 0; }
+.satz-flaeche--fertig .luecke:not(.luecke--voll) { min-width: 0; width: 0.3em; margin: 0; padding: 0; }
+.satz-flaeche--fertig .luecke:not(.luecke--voll)::before { border-color: transparent; }

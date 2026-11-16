@@ -67,10 +67,10 @@
       <p class="auftrag" id="${P}-auftrag">${zwei ? 'Welche zwei Verben passen? Tippe beide an.' : 'Welches Verb passt?'}</p>
       <p class="satz-gross satz-teile" aria-label="${esc(v.stellung === 'vorne' ? `${v.sprecher} Lücke: ${v.rede}` : `${v.rede}, Lücke ${v.sprecher}`)}">${satzHtml(v, gezeigt)}</p>
       <div class="antworten antworten--verben" role="group" aria-labelledby="${P}-auftrag">
-        ${z.optionen.map(o => `<button type="button" class="knopf antwort-knopf${z.fertig && v.passt.includes(o) ? ' ist-richtig' : ''}" data-${P}="verb" data-wert="${esc(o)}" aria-pressed="${z.gewaehlt.has(o)}"${z.fertig ? ' disabled' : ''}>${esc(o)}</button>`).join('')}
+        ${z.optionen.map(o => `<button type="button" class="knopf antwort-knopf${z.fertig && v.passt.includes(o) ? ' ist-richtig' : ''}${!z.fertig && z.falsch === o ? ' ist-falsch' : ''}" data-${P}="verb" data-wert="${esc(o)}" aria-pressed="${z.gewaehlt.has(o)}"${z.fertig ? ' disabled' : ''}>${esc(o)}</button>`).join('')}
       </div>
-      ${zwei && !z.fertig ? `<p class="knopfreihe"><button type="button" class="knopf haupt" data-${P}="pruefen"${z.gewaehlt.size === 2 ? '' : ' disabled'}>Prüfen</button></p>` : ''}
       <p class="rueckmeldung" role="status">${esc(z.rueck)}</p>
+      ${zwei && !z.fertig ? `<p class="knopfreihe"><button type="button" class="knopf haupt" data-${P}="pruefen"${z.gewaehlt.size === 2 ? '' : ' disabled'}>Prüfen</button></p>` : ''}
       ${z.fertig ? `
         <div class="fachwort${z.loesung ? ' fachwort--loesung' : ''}">
           <h2 class="frage-klein">Wörter für „sagen“</h2>
@@ -101,7 +101,8 @@
       return;
     }
     z.versuche++;
-    z.gewaehlt = new Set([o]);
+    z.gewaehlt = new Set();
+    z.falsch = v.passt.includes(o) ? null : o;
     if (v.passt.includes(o)) { z.fertig = true; z.rueck = `Genau: ${o}.`; sammeln(); if (z.versuche <= 2) zaehlen(); }
     else if (z.versuche >= 2) { z.fertig = true; z.loesung = true; z.rueck = `Hier passt besser: ${v.passt[0]}.`; z.gewaehlt = new Set(); sammeln(); }
     else z.rueck = `${o} passt hier nicht so gut. ${RAT[v.satzart]}`;

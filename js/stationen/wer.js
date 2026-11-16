@@ -80,7 +80,7 @@
     hilfeStufe = 0;
     const { d, stellung } = z.saetze[z.i];
     const a = Z().aufbau(d, stellung);
-    Object.assign(z, { a, d, versuche: 0, ok: 0, fertig: false, rueck: '', loesung: false, schritt: 'wer', gewaehlt: new Set(), markiert: null });
+    Object.assign(z, { a, d, falsch: null, versuche: 0, ok: 0, fertig: false, rueck: '', loesung: false, schritt: 'wer', gewaehlt: new Set(), markiert: null });
     if (z.stufe === 'leicht') Object.assign(z, antwortenLeicht(d, a));
     else z.kacheln = kacheln(a, z.stufe === 'knifflig');
     ctx.zeigen(`
@@ -98,7 +98,7 @@
       const frage = (titel, art, liste, richtig, offen) => `
         <h2 class="frage-klein" id="${P}-auftrag-${art}">${titel}</h2>
         <div class="antworten" role="group" aria-labelledby="${P}-auftrag-${art}">
-          ${liste.map(x => `<button type="button" class="knopf antwort-knopf${!offen && x === richtig ? ' ist-richtig' : ''}" data-${P}="${art}" data-wert="${esc(x)}"${offen ? '' : ' disabled'}>${esc(x)}</button>`).join('')}
+          ${liste.map(x => `<button type="button" class="knopf antwort-knopf${!offen && x === richtig ? ' ist-richtig' : ''}${offen && x === z.falsch ? ' ist-falsch' : ''}" data-${P}="${art}" data-wert="${esc(x)}"${offen ? '' : ' disabled'}>${esc(x)}</button>`).join('')}
         </div>`;
       h += `<p class="auftrag nurvorlesen" id="${P}-auftrag">Zwei Fragen zum Satz.</p>`;
       h += frage('Wer spricht?', 'wer', z.namen, wer(z.d), z.schritt === 'wer');
@@ -119,9 +119,10 @@
       });
       if (offen.length) gruppen.push(offen);
       h += `<div class="kachel-satz" role="group" aria-label="Satz zum Antippen">${gruppen.map(g => `<span class="kachel-gruppe">${g.map(([k, i]) => kachel(k, i)).join('')}</span>`).join('')}</div>`;
+      h += `<p class="rueckmeldung" role="status">${esc(z.rueck)}</p>`;
       if (!z.fertig) h += `<p class="knopfreihe"><button type="button" class="knopf haupt" data-${P}="pruefen">Prüfen</button>${z.versuche >= 2 ? `<button type="button" class="knopf" data-${P}="loesung">Lösung zeigen</button>` : ''}</p>`;
     }
-    h += `<p class="rueckmeldung" role="status">${esc(z.rueck)}</p>`;
+    if (z.stufe === 'leicht') h += `<p class="rueckmeldung" role="status">${esc(z.rueck)}</p>`;
     if (z.fertig) h += `
       <div class="fachwort${z.loesung ? ' fachwort--loesung' : ''}">
         <h2 class="frage-klein">So heißt das</h2>
@@ -145,6 +146,7 @@
   function antwortLeicht(art, wert) {
     if (z.fertig || art !== z.schritt) return;
     z.versuche++;
+    z.falsch = null;
     const richtig = art === 'wer' ? wer(z.d) : z.reden.find(r => r.id === 'rede').text;
     if (wert === richtig) {
       z.rueck = art === 'wer' ? `Genau. ${richtig} spricht.` : 'Genau. Das wird gesagt.';
@@ -155,6 +157,7 @@
       z.rueck = art === 'wer' ? `Hier ist die Lösung: ${richtig} spricht.` : `Hier ist die Lösung: ${richtig}`;
       if (art === 'wer') { z.schritt = 'was'; z.versuche = 0; } else { z.schritt = 'ende'; z.fertig = true; z.loesung = true; }
     } else {
+      z.falsch = wert;
       const r = art === 'was' && z.reden.find(x => x.text === wert);
       z.rueck = art === 'wer' ? 'Schau auf den Teil ohne Redezeichen. Dort steht, wer spricht.'
         : r && r.id === 'begleit' ? 'Das ist der Teil, der sagt, wer spricht. Was steht in den Redezeichen?' : 'Das steht nicht in diesem Satz. Schau in die Redezeichen.';

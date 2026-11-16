@@ -63,6 +63,8 @@
       const warImSatz = ort.contains(document.activeElement);
       ort.innerHTML = s.satzHtml(ctx);
       ctx.app.querySelectorAll(`#${praefix}-flaeche .zeichen-knopf`).forEach(b => { b.disabled = s.gesperrt; });
+      const fl = ctx.app.querySelector(`#${praefix}-flaeche`);
+      if (fl) fl.classList.toggle('satz-flaeche--fertig', s.gesperrt);
       if ((warImSatz || fokusLuecke) && s.auswahl >= 0) {
         const b = ort.querySelector(`[data-i="${s.auswahl}"]`);
         if (b && !b.disabled) b.focus();

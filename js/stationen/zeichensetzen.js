@@ -22,7 +22,7 @@
       tipps: ['Wo hört der Begleitsatz auf? Wo fängt die wörtliche Rede an?', 'Am Ende vom Begleitsatz steht ein Doppelpunkt. Dann kommen die Redezeichen unten.', 'Ist die Rede eine Frage, ein Ausruf oder eine Aussage? Das Zeichen dafür steht vor den Redezeichen oben.'],
       stufen: { leicht: 'Nur die Lücken, in die etwas gehört.', mittel: 'Alle Lücken, ohne Sprechblase.', knifflig: 'Längere und schwerere Sätze.' },
       tisch: ['Malt ein Bild mit zwei Personen und einer leeren Sprechblase.', 'Schreibt in die Sprechblase, was jemand sagt.', 'Schreibt den Satz darunter ins Heft: erst wer spricht, dann Doppelpunkt, dann die Rede mit Redezeichen.', 'Kreist die Redezeichen mit einer Farbe ein, den Doppelpunkt mit einer anderen.'],
-      motiv: '<circle class="stempel__kugel" cx="40" cy="44" r="3.4"/><circle class="stempel__kugel" cx="40" cy="56" r="3.4"/><path class="stempel__welle" d="M52 62 q-2 6 -6 8 M60 62 q-2 6 -6 8"/><path class="stempel__welle" d="M26 70 h12"/>'
+      motiv: '<rect class="stempel__kugel" x="22" y="47" width="15" height="6" rx="3"/><path class="stempel__welle" d="M22 59h15"/><circle class="stempel__kugel" cx="42.5" cy="45.5" r="2.2"/><circle class="stempel__kugel" cx="42.5" cy="54.5" r="2.2"/><rect class="stempel__welle" x="48" y="38" width="30" height="24" rx="7"/><rect class="stempel__kugel" x="55" y="47" width="16" height="6" rx="3"/>'
     },
     hinten: {
       titel: 'Begleitsatz hinten', praefix: 'hi', pool: st => WG.daten.saetze[st],
@@ -32,7 +32,7 @@
       tipps: ['Wo hört die wörtliche Rede auf? Wo fängt der Begleitsatz an?', 'Vor dem Begleitsatz steht ein Komma. Am Ende vom ganzen Satz steht ein Punkt.', 'Ist die Rede eine Aussage? Dann fällt ihr Punkt weg. Fragezeichen und Ausrufezeichen bleiben stehen.'],
       stufen: { leicht: 'Nur die Lücken, in die etwas gehört.', mittel: 'Alle Lücken, ohne Sprechblase.', knifflig: 'Längere und schwerere Sätze.' },
       tisch: ['Nehmt einen Satz aus dem Heft, in dem der Begleitsatz vorne steht.', 'Schreibt ihn auf einen Streifen und schneidet Begleitsatz und Rede auseinander.', 'Legt den Begleitsatz nach hinten. Welche Zeichen ändern sich? Legt sie mit Zeichenkärtchen.', 'Schreibt den neuen Satz auf.'],
-      motiv: '<path class="stempel__welle" d="M30 38 q-2 6 -6 8 M38 38 q-2 6 -6 8"/><path class="stempel__welle" d="M50 60 q-1 6 -5 9"/><circle class="stempel__kugel" cx="50" cy="58" r="3"/><path class="stempel__welle" d="M60 66 h14"/>'
+      motiv: '<rect class="stempel__welle" x="20" y="38" width="30" height="24" rx="7"/><rect class="stempel__kugel" x="27" y="47" width="16" height="6" rx="3"/><circle class="stempel__kugel" cx="55" cy="54.5" r="2.2"/><path class="stempel__welle" d="M56.4 56l-1.4 3.6"/><rect class="stempel__kugel" x="60" y="47" width="14" height="6" rx="3"/><path class="stempel__welle" d="M60 59h14"/><circle class="stempel__kugel" cx="79" cy="54.5" r="2.2"/>'
     },
     mitte: {
       titel: 'Begleitsatz in der Mitte', praefix: 'mi', pool: st => WG.daten.mitte[st],
@@ -42,7 +42,7 @@
       tipps: ['Die Rede hat zwei Teile. Wo hört der erste Teil auf?', 'Vor dem Begleitsatz und nach dem Begleitsatz steht ein Komma.', 'Jeder Teil der Rede bekommt Redezeichen: unten am Anfang, oben am Ende.'],
       stufen: { leicht: 'Nur die Lücken, in die etwas gehört.', mittel: 'Alle Lücken, ohne Sprechblase.', knifflig: 'Längere und schwerere Sätze.' },
       tisch: ['Schreibt einen Satz mit wörtlicher Rede auf einen Streifen.', 'Schneidet die Rede an einer passenden Stelle durch und legt den Begleitsatz dazwischen.', 'Welche Zeichen braucht ihr jetzt? Legt sie mit Zeichenkärtchen.'],
-      motiv: '<path class="stempel__welle" d="M22 40 q-2 6 -6 8"/><path class="stempel__welle" d="M40 52 q-1 6 -5 9 M62 52 q-1 6 -5 9"/><path class="stempel__welle" d="M44 66 h12"/><path class="stempel__welle" d="M78 40 q-2 6 -6 8"/>'
+      motiv: '<rect class="stempel__welle" x="18" y="40" width="22" height="20" rx="6"/><rect class="stempel__kugel" x="23" y="47" width="12" height="6" rx="3"/><circle class="stempel__kugel" cx="44" cy="54.5" r="2"/><path class="stempel__welle" d="M45.3 56l-1.3 3.2"/><rect class="stempel__kugel" x="48" y="47" width="10" height="6" rx="3"/><path class="stempel__welle" d="M48 59h10"/><circle class="stempel__kugel" cx="62" cy="54.5" r="2"/><path class="stempel__welle" d="M63.3 56l-1.3 3.2"/><rect class="stempel__welle" x="66" y="40" width="22" height="20" rx="6"/><rect class="stempel__kugel" x="71" y="47" width="12" height="6" rx="3"/>'
     }
   };
 

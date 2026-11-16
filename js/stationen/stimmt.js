@@ -44,7 +44,7 @@
   }
   function aufgabeZeigen() {
     hilfeStufe = 0;
-    Object.assign(z, { b: z.aufgaben[z.i], versuche: 0, fertig: false, rueck: '', loesung: false });
+    Object.assign(z, { falsch: null, b: z.aufgaben[z.i], versuche: 0, fertig: false, rueck: '', loesung: false });
     ctx.zeigen(`
       ${kopf(`Stufe ${T().STUFENNAME[z.stufe]} · Aufgabe ${z.i + 1} von ${z.aufgaben.length}`)}
       <section class="papier aufgabe aufgabe--schmal" id="${P}-aufgabe" aria-labelledby="${P}-frage"></section>`, `Aufgabe ${z.i + 1} – Kann das stimmen?`);
@@ -56,11 +56,11 @@
     const loes = b.stimmt ? 'ja' : 'nein';
     ort.innerHTML = `
       <div class="bela-aussage">${ctx.belaKlein}<div><p class="nurvorlesen">Bela sagt:</p><p class="aussage" id="${P}-frage">„${esc(b.behauptung)}“</p></div></div>
-      <h2 class="frage-klein">Beispiel</h2>
+      <h2 class="frage-klein">Prüfe diesen Satz</h2>
       ${beispielHtml(b)}
       <h2 class="frage-klein">Kann das stimmen?</h2>
       <div class="antworten antworten--zwei" role="group" aria-label="Antworten">
-        ${[['ja', 'Das stimmt.'], ['nein', 'Das stimmt nicht.']].map(([id, t]) => `<button type="button" class="knopf antwort-knopf${z.fertig && id === loes ? ' ist-richtig' : ''}" data-${P}="antwort" data-id="${id}"${z.fertig ? ' disabled' : ''}>${t}</button>`).join('')}
+        ${[['ja', 'Das stimmt.'], ['nein', 'Das stimmt nicht.']].map(([id, t]) => `<button type="button" class="knopf antwort-knopf${z.fertig && id === loes ? ' ist-richtig' : ''}${!z.fertig && id === z.falsch ? ' ist-falsch' : ''}" data-${P}="antwort" data-id="${id}"${z.fertig ? ' disabled' : ''}>${t}</button>`).join('')}
       </div>
       <p class="rueckmeldung" role="status">${esc(z.rueck)}</p>
       ${z.fertig ? `<div class="tipp tipp--schluss${z.loesung ? ' fachwort--loesung' : ''}">${ctx.belaKlein}<p>${esc(b.erklaerung)}</p></div><p class="knopfreihe">${weiter}</p>` : ''}`;
@@ -74,7 +74,7 @@
       z.fertig = true; z.rueck = 'Gut geprüft.';
       if (z.versuche === 1 && !z.geschafft[z.i]) { z.geschafft[z.i] = true; if (!ST().istVorschau && ST().rundeGeschafft(ID, z.stufe) === false) z.gespeichertFehler = true; }
     } else if (z.versuche >= 2) { z.fertig = true; z.loesung = true; z.rueck = 'Hier ist die Lösung: ' + (b.stimmt ? 'Das stimmt.' : 'Das stimmt nicht.'); }
-    else z.rueck = 'Schau dir den Beispielsatz noch einmal genau an. Zeig mit dem Finger auf jedes Zeichen.';
+    else z.falsch = id, z.rueck = 'Schau dir den Beispielsatz noch einmal genau an. Zeig mit dem Finger auf jedes Zeichen.';
     panel(); ctx.ansagen(z.rueck + (z.fertig ? ' ' + b.erklaerung : ''));
     if (z.fertig) T().leuchten(ctx.app.querySelector(`#${P}-aufgabe .tipp--schluss`));
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}="antwort"]`);

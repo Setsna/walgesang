@@ -121,7 +121,8 @@
     for (let i = 0; i <= a.woerter.length; i++) {
       const zeichen = (z[i] || []).join('');
       /* Leerzeichen: nach : und , und vor „ ; Redezeichen oben und Schlusszeichen kleben am Wort */
-      s += zeichen.replace(':' + UNTEN, ': ' + UNTEN).replace(',' + UNTEN, ', ' + UNTEN);
+      /* Vor den Redezeichen unten steht immer ein Leerzeichen (auch in absichtlich falschen Fassungen ohne Doppelpunkt) */
+      s += zeichen.replace(UNTEN, ' ' + UNTEN);
       if (i < a.woerter.length) s += (s && !s.endsWith(UNTEN) ? ' ' : '') + a.woerter[i];
     }
     return s.replace(/\s+/g, ' ').trim();

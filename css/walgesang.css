@@ -343,3 +343,34 @@ h1[tabindex="-1"]:focus-visible { outline-offset: 6px; }
 .sym .sym-frage { stroke-width: 3; }
 /* Satz-Bilder (Begleitsatz und Rede nebeneinander) sind breit: mehr Platz als die runden Bildzeichen */
 .station__bild:has(.sym-kasten) { width: calc(180 * var(--s)); min-width: 7.5rem; }
+
+/* ---------- Etappe 6b ---------- */
+/* 16: Safari unter 16 kennt overflow: clip nicht; dann hidden, sonst steht der Lichthof seitlich über */
+@supports not (overflow: clip) {
+  html, body { overflow-x: hidden; }
+}
+/* 6: iPad quer: Karten niedriger, damit Stationen, Zusatz und Liederbuch ohne Scrollen sichtbar sind;
+   die Zusatz-Karte liegt quer als flache Zeile (Bild links, Name rechts) */
+@media (orientation: landscape) and (max-height: 900px) and (min-width: 820px) {
+  .seite { padding-top: calc(56 * var(--s)); }
+  .kopf { margin-bottom: var(--a-s); }
+  .stationen { margin-top: calc(20 * var(--s)); --luecke: calc(24 * var(--s)); }
+  .station { min-height: 0; padding: calc(26 * var(--s)) var(--a-m) calc(20 * var(--s)); border-radius: calc(56 * var(--s)); }
+  .station__bild { padding-top: calc(10 * var(--s)); margin-bottom: calc(6 * var(--s)); }
+  .zusatz { margin-top: calc(18 * var(--s)); }
+  .stationen--zusatz > li { flex-basis: min(36rem, 100%); }
+  .stationen--zusatz .station { flex-direction: row; flex-wrap: wrap; justify-content: center; column-gap: var(--a-m); padding: calc(14 * var(--s)) var(--a-l); border-radius: 999px; text-align: left; }
+  .stationen--zusatz .station__name { min-height: 0; font-size: var(--gr-text); }
+  .stationen--zusatz .station__linie { display: none; }
+  .stationen--zusatz .station__bild { order: -1; margin: 0; padding: 0; width: 6rem; min-width: 0; }
+  .stationen--zusatz .stempel-punkte { margin-top: 0; }
+}
+/* 7: Tafel: Kurztext im Sechser-Raster eine Stufe kleiner, damit der Titel führt */
+@media (orientation: landscape) and (min-width: 1500px) {
+  .stationen:not(.stationen--zusatz) .station__kurz { font-size: 0.95rem; }
+}
+/* 6 (Fortsetzung): iPad quer: alle sechs Stationen in einer Reihe (Titel brechen nur zwischen Wörtern um) */
+@media (orientation: landscape) and (min-width: 1100px) {
+  .stationen { --spalten: 6; max-width: 92rem; }
+  .stationen:not(.stationen--zusatz) .station__kurz { font-size: 0.95rem; }
+}
