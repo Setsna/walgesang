@@ -252,3 +252,8 @@
 /* Eine ausgewählte Fehlerstelle bleibt als Fehlerstelle erkennbar (Rahmen gestrichelt, Pfeil bleibt) */
 .luecke--fehler[aria-pressed="true"] { border: 3px dashed var(--fehler); background: rgba(165, 67, 44, 0.08); outline: 2px solid var(--navy); outline-offset: 2px; }
 .antworten--verben .antwort-knopf { font-size: var(--gr-text); font-weight: 400; }
+/* Schmale Aufgabenfläche (Wer spricht?, Verben, Kann das stimmen?) mittig statt links */
+.aufgabe--schmal { margin-left: auto; margin-right: auto; }
+/* Feste Zeichen zwischen den Kacheln nur so breit wie nötig (kein 48-px-Touchziel, sie sind nicht antippbar) */
+.kachel--fest { min-width: 0; padding: 0 0.1em; }
+.kachel-gruppe { display: inline-flex; align-items: center; gap: var(--a-xs); white-space: nowrap; }

@@ -116,15 +116,23 @@
 
   /* Kleine Stationsbilder als Code-Grafik (Zierde, aria-hidden): ruhige Linien, Redezeichen groß. Keine Comic-Sprechblasen. */
   const SVG = inhalt => `<svg class="station__bild sym" viewBox="0 0 96 72" aria-hidden="true" focusable="false">${inhalt}</svg>`;
-  const ZEICHEN = (x, y, t, k = '') => `<text class="sym-text${k}" x="${x}" y="${y}">${t}</text>`;
+  /* Bausteine für die Satz-Bilder: gleiche Bildsprache wie in den Stationen (Begleitsatz unterstrichen, Rede im Kasten).
+     Zeichen sind gezeichnete Formen, keine Schriftzeichen. */
+  const BEGLEIT = (x, b) => `<rect class="sym-balken" x="${x}" y="32" width="${b}" height="8" rx="4"/><path class="sym-unterstrich" d="M${x} 47h${b}"/>`;
+  const REDE = (x, b) => `<rect class="sym-kasten" x="${x}" y="21" width="${b}" height="30" rx="8"/><rect class="sym-balken" x="${x + 9}" y="32" width="${b - 18}" height="8" rx="4"/>`
+    + `<path class="sym-zeichen" d="M${x + 4} 46.5l-1.2 3.4M${x + 7} 46.5l-1.2 3.4"/>`            /* „ unten links im Kasten */
+    + `<path class="sym-zeichen" d="M${x + b - 8} 29.5l1.2-3.4M${x + b - 5} 29.5l1.2-3.4"/>`;    /* “ oben rechts im Kasten */
+  const KOMMA = x => `<circle class="sym-punkt" cx="${x}" cy="43" r="2.4"/><path class="sym-zeichen" d="M${x + 1.6} 44.5l-1.6 3.8"/>`;
+  const PUNKT = x => `<circle class="sym-punkt" cx="${x}" cy="43" r="2.4"/>`;
+  const DOPPELPUNKT = x => `<circle class="sym-punkt" cx="${x}" cy="31" r="2.4"/><circle class="sym-punkt" cx="${x}" cy="42" r="2.4"/>`;
   const STATIONSBILD = {
     wer: SVG(`<rect class="sym-feld" x="8" y="14" width="80" height="36" rx="12"/><path d="M26 50l-6 12 14-12"/><circle class="sym-punkt" cx="34" cy="32" r="3.5"/><circle class="sym-punkt" cx="48" cy="32" r="3.5"/><circle class="sym-punkt" cx="62" cy="32" r="3.5"/>`),
-    vorne: SVG(`<path class="sym-linie" d="M8 40h22"/>${ZEICHEN(32, 44, ':')}${ZEICHEN(40, 52, '„', ' sym-text--gross')}<path class="sym-duenn" d="M58 40h18"/>${ZEICHEN(76, 34, '“', ' sym-text--gross')}`),
-    hinten: SVG(`${ZEICHEN(6, 52, '„', ' sym-text--gross')}<path class="sym-duenn" d="M22 40h20"/>${ZEICHEN(42, 34, '“', ' sym-text--gross')}${ZEICHEN(58, 46, ',')}<path class="sym-linie" d="M66 40h18"/>${ZEICHEN(85, 44, '.')}`),
+    vorne: SVG(`${BEGLEIT(4, 26)}${DOPPELPUNKT(37)}${REDE(45, 47)}`),
+    hinten: SVG(`${REDE(2, 47)}${KOMMA(55)}${BEGLEIT(63, 24)}${PUNKT(93)}`),
     gespraech: SVG(`<rect class="sym-feld" x="6" y="8" width="52" height="22" rx="9"/><rect class="sym-feld sym-feld--zwei" x="38" y="38" width="52" height="22" rx="9"/><path class="sym-duenn" d="M14 19h36M46 49h36"/>`),
     verben: SVG(`<path d="M10 46c8-18 16-18 24 0s16 18 24 0 16-18 24 0"/><path class="sym-duenn" d="M18 30c5-9 10-9 15 0M63 30c5-9 10-9 15 0"/>`),
-    stimmt: SVG(`<path class="sym-griff" d="M57 47l16 16"/><circle class="sym-glas" cx="42" cy="32" r="20"/><circle class="sym-glasrand" cx="42" cy="32" r="20"/>${ZEICHEN(33, 41, '?')}`),
-    mitte: SVG(`${ZEICHEN(2, 52, '„', ' sym-text--gross')}<path class="sym-duenn" d="M16 40h10"/>${ZEICHEN(26, 34, '“', ' sym-text--gross')}${ZEICHEN(38, 46, ',')}<path class="sym-linie" d="M44 40h12"/>${ZEICHEN(57, 46, ',')}${ZEICHEN(62, 52, '„', ' sym-text--gross')}<path class="sym-duenn" d="M76 40h8"/>${ZEICHEN(84, 34, '“', ' sym-text--gross')}`)
+    stimmt: SVG(`<path class="sym-griff" d="M57 47l16 16"/><circle class="sym-glas" cx="42" cy="32" r="20"/><circle class="sym-glasrand" cx="42" cy="32" r="20"/><path class="sym-zeichen sym-frage" d="M36.5 25a5.5 5.5 0 1 1 8.2 4.8c-1.9 1-2.7 2.4-2.7 4.3"/><circle class="sym-punkt" cx="42" cy="40" r="2.2"/>`),
+    mitte: SVG(`${REDE(1, 30)}${KOMMA(35)}${BEGLEIT(41, 16)}${KOMMA(61)}${REDE(66, 29)}`),
   };
   const BUCH = '<svg class="buch" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5c3-1.5 5.5-1.5 8 0v14c-2.5-1.5-5-1.5-8 0z"/><path d="M12 5c2.5-1.5 5-1.5 8 0v14c-3-1.5-5.5-1.5-8 0"/></svg>';
   const SCHLOSS = '<svg class="schloss" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';

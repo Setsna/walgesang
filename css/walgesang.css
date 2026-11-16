@@ -335,3 +335,11 @@ h1[tabindex="-1"]:focus-visible { outline-offset: 6px; }
 @media (max-width: 560px) { .stationen--zusatz > li { flex-basis: 100%; max-width: 22rem; } }
 /* Lange Stationsnamen („aufschreiben“, „gesprochen?“) ohne Trennung mitten im Wort: etwas kleiner, kein Umbruch im Wort */
 .station__name { font-size: clamp(min(1.15rem, 12.5cqi), 12.5cqi, 2.2rem); overflow-wrap: normal; hyphens: manual; }
+/* Satz-Bilder auf den Stationskarten: Begleitsatz als Balken mit Unterstrich, Rede im Glaskasten, Zeichen gezeichnet */
+.sym .sym-balken { fill: rgba(255, 255, 255, 0.9); stroke: none; }
+.sym .sym-unterstrich { stroke: #9fd3ea; stroke-width: 2.6; }
+.sym .sym-kasten { fill: rgba(214, 242, 252, 0.14); stroke: rgba(255, 255, 255, 0.85); stroke-width: 2; }
+.sym .sym-zeichen { stroke: rgba(255, 255, 255, 0.95); stroke-width: 2.2; }
+.sym .sym-frage { stroke-width: 3; }
+/* Satz-Bilder (Begleitsatz und Rede nebeneinander) sind breit: mehr Platz als die runden Bildzeichen */
+.station__bild:has(.sym-kasten) { width: calc(180 * var(--s)); min-width: 7.5rem; }

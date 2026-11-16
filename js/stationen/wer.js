@@ -105,9 +105,20 @@
       if (z.schritt !== 'wer') h += frage('Was wird gesagt?', 'was', z.reden.map(r => r.text), z.reden.find(r => r.id === 'rede').text, z.schritt === 'was');
     } else {
       h += `<p class="auftrag" id="${P}-auftrag">${z.stufe === 'knifflig' ? 'Tippe die wörtliche Rede und die beiden Redezeichen an.' : 'Tippe alle Wörter der wörtlichen Rede an.'}</p>`;
-      h += `<div class="kachel-satz" role="group" aria-label="Satz zum Antippen">${z.kacheln.map((k, i) => k.tippbar
+      const kachel = (k, i) => k.tippbar
         ? `<button type="button" class="kachel${k.zeichen ? ' kachel--zeichen' : ''}${z.gewaehlt.has(i) ? ' kachel--an' : ''}${z.markiert && z.markiert.has(i) ? ' kachel--fehler' : ''}" data-${P}="kachel" data-i="${i}" aria-pressed="${z.gewaehlt.has(i)}"${z.fertig ? ' disabled' : ''} aria-label="${esc(k.zeichen ? Z().NAME[k.text] : k.text)}">${esc(k.text)}</button>`
-        : `<span class="kachel kachel--fest${k.zeichen ? ' kachel--zeichen' : ''}">${esc(k.text)}</span>`).join('')}</div>`;
+        : `<span class="kachel kachel--fest${k.zeichen ? ' kachel--zeichen' : ''}">${esc(k.text)}</span>`;
+      /* Gruppen, die nicht umbrechen: Redezeichen unten hängt am folgenden Wort, alle anderen Zeichen am Wort davor */
+      const gruppen = [];
+      let offen = [];
+      z.kacheln.forEach((k, i) => {
+        if (!k.zeichen) { gruppen.push(offen.concat([[k, i]])); offen = []; }
+        else if (k.text === Z().UNTEN) offen.push([k, i]);
+        else if (gruppen.length) gruppen[gruppen.length - 1].push([k, i]);
+        else offen.push([k, i]);
+      });
+      if (offen.length) gruppen.push(offen);
+      h += `<div class="kachel-satz" role="group" aria-label="Satz zum Antippen">${gruppen.map(g => `<span class="kachel-gruppe">${g.map(([k, i]) => kachel(k, i)).join('')}</span>`).join('')}</div>`;
       if (!z.fertig) h += `<p class="knopfreihe"><button type="button" class="knopf haupt" data-${P}="pruefen">Prüfen</button>${z.versuche >= 2 ? `<button type="button" class="knopf" data-${P}="loesung">Lösung zeigen</button>` : ''}</p>`;
     }
     h += `<p class="rueckmeldung" role="status">${esc(z.rueck)}</p>`;
