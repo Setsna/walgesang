@@ -257,3 +257,6 @@
 /* Feste Zeichen zwischen den Kacheln nur so breit wie nötig (kein 48-px-Touchziel, sie sind nicht antippbar) */
 .kachel--fest { min-width: 0; padding: 0 0.1em; }
 .kachel-gruppe { display: inline-flex; align-items: center; gap: var(--a-xs); white-space: nowrap; }
+/* Beschriftung in der Zeichenleiste bleibt im Knopf: lange Wörter brechen am weichen Trennzeichen (Doppel-punkt) */
+.zeichen-knopf { min-width: 0; overflow: hidden; }
+.zeichen-knopf__name { max-width: 100%; hyphens: manual; overflow-wrap: normal; text-align: center; }

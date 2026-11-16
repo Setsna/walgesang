@@ -144,8 +144,8 @@
   function waehlen(id) {
     const o = z.optionen.find(x => x.id === id);
     z.versuche++;
-    if (id === 'richtig') { z.rueck = z.fertig ? '' : 'Genau.'; zeileFertig(o.text, z.versuche <= 2); if (z.fertig) z.rueck = 'Genau. Das Gespräch ist aufgeschrieben.'; }
-    else if (z.versuche >= 2) { const r = z.optionen.find(x => x.id === 'richtig'); z.rueck = 'Diese Zeile ist richtig: ' + r.text; zeileFertig(r.text, false); }
+    if (id === 'richtig') { zeileFertig(o.text, z.versuche <= 2); z.rueck = z.fertig ? 'Genau. Das Gespräch ist aufgeschrieben.' : 'Genau. Weiter mit der nächsten Zeile.'; }
+    else if (z.versuche >= 2) { const r = z.optionen.find(x => x.id === 'richtig'); zeileFertig(r.text, false); z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.'; }
     else z.rueck = id === 'sprecher' ? 'Schau oben ins Bild: Wer sagt das?' : 'Der Sprecher stimmt. Schau genau auf die Zeichen.';
     panel(); ctx.ansagen(z.rueck);
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}="zeile"]`);
@@ -160,7 +160,7 @@
   function loesung() {
     const t = Z().text(z.a);
     zeileFertig(t, false);
-    z.rueck = 'Diese Zeile ist richtig: ' + t;
+    z.rueck = z.fertig ? 'Die richtige Zeile steht jetzt in deinem Heft. Das Gespräch ist fertig.' : 'Die richtige Zeile steht jetzt in deinem Heft. Weiter mit der nächsten Zeile.';
     panel(); ctx.ansagen(z.rueck);
     T().fokus(ctx, z.fertig ? `[data-${P}="weiter"]` : `[data-${P}s="luecke"]`);
   }

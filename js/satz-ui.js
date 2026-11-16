@@ -10,7 +10,7 @@
   'use strict';
   const WG = window.WG = window.WG || {};
   const Z = () => WG.zeichen;
-  const KURZ = { '„': 'unten', '“': 'oben', ':': 'Doppelpunkt', ',': 'Komma', '.': 'Punkt', '!': 'Ausruf', '?': 'Frage' };
+  const KURZ = { '„': 'unten', '“': 'oben', ':': 'Doppel­punkt', ',': 'Komma', '.': 'Punkt', '!': 'Ausruf', '?': 'Frage' };
   const WEG = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6h11v12H9l-6-6z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>';
 
   /* aufbau: aus WG.zeichen.aufbau. nurNoetige: nur die Lücken mit Zeichen sind bedienbar (Stufe leicht). */
